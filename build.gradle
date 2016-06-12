@@ -1,0 +1,30 @@
+apply plugin: 'antlr'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+sourceSets {
+    main { java { srcDir 'build/generated-src/antlr/main' } }
+}
+
+
+configurations { antlr4 }
+
+dependencies {
+    antlr "org.antlr:antlr4:4.5"
+    compile "org.antlr:antlr4-runtime:4.5"
+}
+
+generateGrammarSource {
+    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/education/explore/antlr/rfc1035".toString())
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
